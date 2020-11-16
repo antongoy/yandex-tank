@@ -867,6 +867,8 @@ Options
   (Optional) InfluxDB database. (Default: 'mydb')
 :username:
   (Optional) InfluxDB user name. (Default: 'root')
+:timeout:
+  (Optional) InfluxDB timeout. (Default: 'None')
 :password:
   (Optional) InfluxDB password. (Default: 'root')
 :labeled:
