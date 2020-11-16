@@ -29,8 +29,8 @@ chunk_size:
   default: 500000
   type: integer
 timeout:
-  default: none
-  type: integer
+  default: 1s
+  type: string
 labeled:
   default: false
   type: boolean

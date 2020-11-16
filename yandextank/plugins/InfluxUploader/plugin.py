@@ -13,6 +13,7 @@ from influxdb import InfluxDBClient
 from .decoder import Decoder
 from ...common.interfaces import AbstractPlugin, \
     MonitoringDataListener, AggregateResultListener
+from ...common.util import expand_to_seconds
 
 logger = logging.getLogger(__name__)  # pylint: disable=C0103
 
@@ -56,7 +57,7 @@ class Plugin(AbstractPlugin, AggregateResultListener,
                 ssl=self.get_option("ssl"),
                 verify_ssl=self.get_option("verify_ssl"),
                 path=self.get_option("path"),
-                timeout=self.get_option("timeout"),
+                timeout=expand_to_seconds(self.get_option("timeout")),
                 username=self.get_option("username"),
                 password=self.get_option("password"),
                 database=self.get_option("database"),

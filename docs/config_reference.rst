@@ -95,6 +95,10 @@ InfluxUploader
 ---------------------
 *\- (no description). Default:* ``root``
 
+``timeout`` (string)
+---------------------
+*\- (no description). Default:* ``1s``
+
 ``port`` (integer)
 ------------------
 *\- (no description). Default:* ``8086``
