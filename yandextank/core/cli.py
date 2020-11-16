@@ -131,8 +131,7 @@ def main():
                             log_handlers=handlers
                             )
     except (ValidationError, LockError) as e:
-        logging.error('Config validation error:\n{}'.format(e.message))
-        return
+        raise
     worker.start()
     try:
         while True:
