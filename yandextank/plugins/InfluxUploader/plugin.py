@@ -40,9 +40,14 @@ class Plugin(AbstractPlugin, AggregateResultListener,
         self._client = None
         self.start_time = None
         self.end_time = None
+
+        uuid = str(uuid4())
+
+        logger.info('Test uuid %s' % uuid)
+
         self.decoder = Decoder(
             self.tank_tag,
-            str(uuid4()),
+            uuid,
             self.get_option("custom_tags"),
             self.get_option("labeled"),
             self.get_option("histograms"),
