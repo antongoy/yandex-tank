@@ -9,6 +9,7 @@ from uuid import uuid4
 
 from builtins import str
 from influxdb import InfluxDBClient
+from influxdb.exceptions import InfluxDBServerError
 
 from .decoder import Decoder
 from ...common.interfaces import AbstractPlugin, \
@@ -80,24 +81,15 @@ class Plugin(AbstractPlugin, AggregateResultListener,
         return retcode
 
     def on_aggregated_data(self, data, stats):
-        self.client.write_points(
-            self.decoder.decode_aggregates(data, stats, self.prefix_measurement),
-            's'
-        )
+        try:
+            self.client.write_points(
+                self.decoder.decode_aggregates(data, stats, self.prefix_measurement),
+                's'
+            )
+        except InfluxDBServerError as error:
+            logger.exception('InfluxDB error: %s', error)
 
     def monitoring_data(self, data_list):
-        self.client.write_points(
-            [{
-                'measurement': 'debug',
-                'tags': {
-                    'uuid': self.uuid
-                },
-                'fields': {
-                    'data_list_size': len(data_list)
-                }
-            }]
-        )
-
         if len(data_list) > 0:
             [
                 self._send_monitoring(chunk)
