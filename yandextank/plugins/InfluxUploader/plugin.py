@@ -41,13 +41,13 @@ class Plugin(AbstractPlugin, AggregateResultListener,
         self.start_time = None
         self.end_time = None
 
-        uuid = str(uuid4())
+        self.uuid = str(uuid4())
 
-        logger.info('Test uuid %s' % uuid)
+        logger.info('Test uuid %s' % self.uuid)
 
         self.decoder = Decoder(
             self.tank_tag,
-            uuid,
+            self.uuid,
             self.get_option("custom_tags"),
             self.get_option("labeled"),
             self.get_option("histograms"),
@@ -86,6 +86,18 @@ class Plugin(AbstractPlugin, AggregateResultListener,
         )
 
     def monitoring_data(self, data_list):
+        self.client.write_points(
+            [{
+                'measurement': 'debug',
+                'tags': {
+                    'uuid': self.uuid
+                },
+                'fields': {
+                    'data_list_size': len(data_list)
+                }
+            }]
+        )
+
         if len(data_list) > 0:
             [
                 self._send_monitoring(chunk)
@@ -99,4 +111,5 @@ class Plugin(AbstractPlugin, AggregateResultListener,
         )
 
     def set_uuid(self, id_):
+        self.uuid = id_
         self.decoder.tags['uuid'] = id_
