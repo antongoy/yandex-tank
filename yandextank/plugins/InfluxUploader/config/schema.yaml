@@ -43,3 +43,6 @@ prefix_measurement:
 custom_tags:
   default: {}
   type: dict
+uuid:
+  default: null
+  type: string

@@ -42,7 +42,12 @@ class Plugin(AbstractPlugin, AggregateResultListener,
         self.start_time = None
         self.end_time = None
 
-        self.uuid = str(uuid4())
+        uuid = self.get_option('uuid')
+
+        if uuid is None:
+            self.uuid = str(uuid4())
+        else:
+            self.uuid = uuid
 
         logger.info('Test uuid %s' % self.uuid)
 
